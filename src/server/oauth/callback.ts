@@ -4,6 +4,7 @@ import { Err, Ok, Result } from 'ts-results-es';
 import { fromError } from 'zod-validation-error';
 
 import { getConfig } from '../../config.js';
+import { writeToStderr } from '../../logging/log.js';
 import { RestApi } from '../../sdks/tableau/restApi.js';
 import { getTokenResult } from '../../sdks/tableau-oauth/methods.js';
 import { TableauAccessToken } from '../../sdks/tableau-oauth/types.js';
@@ -125,8 +126,8 @@ export function callback(
 
       if (
         config.oauth.lockSite &&
-        sessionResult.value.site.name !== config.siteName &&
-        !(sessionResult.value.site.name === 'Default' && !config.siteName)
+        sessionResult.value.site.contentUrl !== config.siteName &&
+        !(sessionResult.value.site.contentUrl === '' && !config.siteName)
       ) {
         const sentences = [
           `User signed in to site: ${sessionResult.value.site.name || 'Default'}.`,
@@ -168,7 +169,7 @@ export function callback(
 
       res.redirect(redirectUrl.toString());
     } catch (error) {
-      console.error('OAuth callback error:', error);
+      writeToStderr(`OAuth callback error: ${error}`);
       res.status(500).json({
         error: 'server_error',
         error_description:

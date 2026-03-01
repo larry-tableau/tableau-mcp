@@ -146,11 +146,13 @@ async function verifyAccessToken(
         refreshToken: tableauRefreshToken,
       };
     } else {
-      const { tableauUserId, tableauServer, sub } = mcpAccessToken.data;
+      const { tableauUserId, tableauServer, sub, userAttributes, siteRole } = mcpAccessToken.data;
       tableauAuthInfo = {
         username: sub,
         server: tableauServer,
         ...(tableauUserId ? { userId: tableauUserId } : {}),
+        ...(userAttributes ? { userAttributes } : {}),
+        ...(siteRole ? { siteRole } : {}),
       };
     }
 

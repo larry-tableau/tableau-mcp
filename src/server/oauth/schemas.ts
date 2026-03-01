@@ -91,6 +91,8 @@ export const mcpAccessTokenUserOnlySchema = z.object({
   tableauServer: requiredString('tableauServer'),
   // Optional because there may not be a user associated with the access token, e.g. for client credentials grant type
   tableauUserId: z.string().optional(),
+  userAttributes: z.record(z.array(z.unknown())).optional(),
+  siteRole: z.string().optional(),
 });
 
 export const mcpAccessTokenSchema = mcpAccessTokenUserOnlySchema.extend({
@@ -111,6 +113,8 @@ export const tableauAuthInfoSchema = z
     server: z.string(),
     accessToken: z.string(),
     refreshToken: z.string(),
+    userAttributes: z.record(z.array(z.unknown())).optional(),
+    siteRole: z.string().optional(),
   })
   .partial();
 

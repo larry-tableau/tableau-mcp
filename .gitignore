@@ -15,6 +15,26 @@ tableau-mcp.dxt
 tableau-mcp.exe
 tableau-mcp.mcpb
 *.pem
+uat/keys/
+uat/.server.pid
+uat/.server.log
 *.tgz
 *.tar.gz
 *.zip
+
+# Agent / IDE config (local only)
+.agents/
+.claude/
+.cursor/
+.learnings/
+skills-lock.json
+AGENTS.md
+CLAUDE.md
+
+# UAT scripts and tests (contain hardcoded demo identifiers)
+uat/
+tests/e2e/uat/
+
+# Demo artefacts with embedded secrets
+datasources.md
+*.twbx

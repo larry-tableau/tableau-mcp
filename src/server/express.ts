@@ -7,7 +7,7 @@ import http from 'http';
 import https from 'https';
 
 import { Config } from '../config.js';
-import { setLogLevel } from '../logging/log.js';
+import { setLogLevel, writeToStderr } from '../logging/log.js';
 import { Server } from '../server.js';
 import { createSession, getSession, Session } from '../sessions.js';
 import { handlePingRequest, validateProtocolVersion } from './middleware.js';
@@ -42,6 +42,7 @@ export async function startExpressServer({
         'Cache-Control',
         'Accept',
         'MCP-Protocol-Version',
+        SESSION_ID_HEADER,
       ],
       exposedHeaders: [SESSION_ID_HEADER, 'x-session-id'],
     }),
@@ -149,7 +150,7 @@ export async function startExpressServer({
 
       await transport.handleRequest(req, res, req.body);
     } catch (error) {
-      console.error('Error handling MCP request:', error);
+      writeToStderr(`Error handling MCP request: ${error}`);
       if (!res.headersSent) {
         res.status(500).json({
           jsonrpc: '2.0',

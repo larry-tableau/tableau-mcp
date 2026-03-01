@@ -291,5 +291,9 @@ function getJwtAdditionalPayload(
   authInfo: TableauAuthInfo | undefined,
 ): Record<string, unknown> {
   const json = config.jwtAdditionalPayload.replaceAll('{OAUTH_USERNAME}', authInfo?.username ?? '');
-  return JSON.parse(json || '{}');
+  return {
+    ...JSON.parse(json || '{}'),
+    ...(authInfo?.userAttributes ?? {}),
+    ...(authInfo?.siteRole ? { 'https://tableau.com/oda/rol': authInfo.siteRole } : {}),
+  };
 }

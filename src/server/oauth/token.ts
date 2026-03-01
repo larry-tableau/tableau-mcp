@@ -5,6 +5,7 @@ import { Err, Ok, Result } from 'ts-results-es';
 import { fromError } from 'zod-validation-error';
 
 import { getConfig } from '../../config.js';
+import { writeToStderr } from '../../logging/log.js';
 import { getTokenResult } from '../../sdks/tableau-oauth/methods.js';
 import { TableauAccessToken } from '../../sdks/tableau-oauth/types.js';
 import { setLongTimeout } from '../../utils/setLongTimeout.js';
@@ -206,7 +207,7 @@ export function token(
         }
       }
     } catch (error) {
-      console.error('Token endpoint error:', error);
+      writeToStderr(`Token endpoint error: ${error}`);
       res.status(500).json({
         error: 'server_error',
         error_description: 'Internal server error',
