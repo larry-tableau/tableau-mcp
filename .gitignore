@@ -38,3 +38,6 @@ tests/e2e/uat/
 # Demo artefacts with embedded secrets
 datasources.md
 *.twbx
+
+#Other files
+_email/
