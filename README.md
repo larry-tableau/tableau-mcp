@@ -14,16 +14,26 @@ environment-specific setup values must be provided by the operator.
 ### Requirements
 
 - Node.js 22.7.5 or newer
+- Git
 - An MCP client e.g. Claude Desktop, Cursor, VS Code, MCP Inspector, etc.
 
-Standard config works in most MCP clients:
+Clone and build the repository locally:
+
+```bash
+git clone https://github.com/larry-tableau/tableau-mcp.git
+cd tableau-mcp
+npm install
+npm run build
+```
+
+Then point your MCP client at the built server:
 
 ```json
 {
   "mcpServers": {
     "tableau": {
-      "command": "npx",
-      "args": ["-y", "tableau-mcp-external@latest"],
+      "command": "node",
+      "args": ["/absolute/path/to/tableau-mcp/build/index.js"],
       "env": {
         "SERVER": "https://my-tableau-server.com",
         "SITE_NAME": "my_site",
@@ -34,6 +44,10 @@ Standard config works in most MCP clients:
   }
 }
 ```
+
+This source-based path is the reproducible deployment route for this public fork. If you later
+publish npm packages or GitHub release assets for your fork, you can adapt the client config to
+those delivery channels.
 
 ## Public UAT Workflow
 

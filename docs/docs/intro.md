@@ -4,8 +4,8 @@ sidebar_position: 1
 
 # Introduction
 
-Tableau MCP is a suite of developer primitives, including tools, resources and prompts, that will
-make it easier for developers to build AI applications that integrate with Tableau.
+This repository provides an independent MCP server for Tableau environments, including the tools
+and supporting documentation needed to build AI applications that integrate with Tableau.
 
 ## Key Features
 

@@ -617,8 +617,7 @@ your Tableau Cloud site). Only the secret is sent — the PAT name is not used.
 ### `registerUat.ts` fails with "Site not found"
 
 Set `SITE_NAME` to the exact `contentUrl` value for your site. This is the short slug in your
-Tableau Cloud URL, not the display name shown in the site dropdown. The Default site has
-`contentUrl = ''` (empty string).
+Tableau Cloud URL, not the display name shown in the site dropdown.
 
 ---
 

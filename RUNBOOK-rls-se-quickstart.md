@@ -280,7 +280,7 @@ UAT_ISSUER=<printed by script>
 > **What is a `.env` file?**
 > It is a plain text configuration file that stores settings and secrets for the server.
 > Create it with any text editor — TextEdit on Mac (use Format → Make Plain Text first),
-> Notepad on Windows, or VS Code. Save it as `tests/.env` inside the `tableau-mcp-external` folder.
+> Notepad on Windows, or VS Code. Save it as `tests/.env` inside the `tableau-mcp` folder.
 > There is no `.txt` extension — the filename is literally `.env`.
 
 Start from `tests/.env.example`, copy it to `tests/.env`, then replace every `[PLACEHOLDER]`

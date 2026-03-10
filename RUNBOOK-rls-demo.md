@@ -143,7 +143,29 @@ Open this URL in your browser.
 
 ---
 
-## Step 3 — Sign in as User 1 (Creator)
+## Step 3 — Generate Authentication Tokens
+
+Open a **third Terminal window** and run:
+
+```sh
+npx tsx --env-file=tests/.env uat/scripts/generateTestTokens.ts
+```
+
+Output:
+
+```json
+{
+  "creator": "eyJhbGci...",
+  "viewer": "eyJhbGci..."
+}
+```
+
+Keep this output open. You will paste the `creator` and `viewer` tokens into the Inspector in
+the next two steps.
+
+---
+
+## Step 4 — Sign in as User 1 (Creator)
 
 In the browser:
 
@@ -155,12 +177,12 @@ In the browser:
 
 ---
 
-## Step 4 — Open a Second Session as User 2 (Viewer)
+## Step 5 — Open a Second Session as User 2 (Viewer)
 
 Open an **incognito / private browser window** (or a separate browser profile), then navigate to
 the same Inspector URL from Step 2.
 
-Repeat Step 3 in this second window, this time using:
+Repeat Step 4 in this second window, this time using:
 - **Header Name**: `Authorization`
 - **Header Value**: `Bearer <viewer token>`
 
@@ -169,7 +191,7 @@ Repeat Step 3 in this second window, this time using:
 
 ---
 
-## Step 5 — Run the Same Query in Both Windows
+## Step 6 — Run the Same Query in Both Windows
 
 In **each** Inspector window, call `query-datasource` with identical inputs:
 
@@ -199,7 +221,7 @@ Click **Run Tool** in both windows.
 
 ---
 
-## Step 6 — Compare the Results
+## Step 7 — Compare the Results
 
 The moment of proof: two identical queries, two different results.
 
@@ -233,16 +255,20 @@ Work through this checklist in order:
 1. **VC Data Policy condition** — Tableau Cloud → Virtual Connections →
    Sample - Superstore with VC policies → Data Policies → rls_entitlement.
    Confirm the `LOWER(USERNAME())` condition includes the user's email.
-2. **Datasource permissions** — both demo users need View + Connect on the
+2. **Datasource permissions** — both demo users need View + Connect + API Access on the
    published datasource in Tableau Cloud.
 3. **Server is using the VC datasource LUID** — confirm
-   DATASOURCE_LUID = <datasource-luid> in rlsValidate.ts.
+   `DATASOURCE_LUID=<datasource-luid>` in `tests/.env`.
 
-### "401 Unauthorized" in the terminal
+### `401 Unauthorized` after Connect or on tool calls
 
-This is expected behaviour. The MCP Inspector probes the server, detects that authentication is
-required, and automatically kicks off the OAuth sign-in flow. Ignore the terminal and use the
-browser.
+Your bearer token is missing, malformed, or expired. Re-run:
+
+```sh
+npx tsx --env-file=tests/.env uat/scripts/generateTestTokens.ts
+```
+
+Then reconnect with a fresh `Authorization: Bearer <token>` header.
 
 ### Inspector shows a blank page or no Connect button
 
@@ -285,7 +311,7 @@ Rows returned: 2
 ```
 
 > If the Viewer returns 0 rows, the script will print an actionable message explaining the cause
-> and the exact fix needed in Tableau Desktop.
+> and the exact fix needed in Tableau Cloud permissions or the Virtual Connection Data Policy.
 
 ---
 

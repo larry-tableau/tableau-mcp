@@ -9,16 +9,26 @@ sidebar_position: 2
 Requirements
 
 - Node.js 22.7.5 or newer
+- Git
 - An MCP client e.g. Claude Desktop, Cursor, VS Code, MCP Inspector, etc.
 
-This standard config works in most MCP clients:
+Clone and build the repository locally:
+
+```bash
+git clone https://github.com/larry-tableau/tableau-mcp.git
+cd tableau-mcp
+npm install
+npm run build
+```
+
+Then point your MCP client at the built server:
 
 ```json
 {
   "mcpServers": {
     "tableau": {
-      "command": "npx",
-      "args": ["-y", "tableau-mcp-external@latest"],
+      "command": "node",
+      "args": ["/absolute/path/to/tableau-mcp/build/index.js"],
       "env": {
         "SERVER": "https://my-tableau-server.com",
         "SITE_NAME": "my_site",
@@ -29,6 +39,9 @@ This standard config works in most MCP clients:
   }
 }
 ```
+
+This source-based path is the supported way to reproduce this public fork. Release-based options
+below only apply if this fork publishes GitHub release assets.
 
 <hr />
 
@@ -45,7 +58,7 @@ both Windows and Linux.
 
 Run the local `scripts/Manage-Server.ps1` helper from this repository.
 
-This PowerShell script can help you:
+If your fork publishes GitHub release assets, this PowerShell script can help you:
 
 1. Download the single executable application for any of the latest releases.
 2. Create a `.env` file with your Tableau MCP settings.
@@ -88,7 +101,7 @@ iwr -Uri "https://raw.githubusercontent.com/larry-tableau/tableau-mcp/refs/heads
 
 ### Linux or Manual Windows Installation
 
-1. Go to the latest project [release][releases] on GitHub
+1. Go to the latest project [release][releases] on GitHub, if your fork publishes release assets
 2. Under Assets, download the `tableau-mcp.zip` (Windows) or `tableau-mcp.tar.gz` (Linux) archive
    for your operating system.
    - If no archives exist, the release is too old and you'll need to choose a newer release.
@@ -105,7 +118,7 @@ iwr -Uri "https://raw.githubusercontent.com/larry-tableau/tableau-mcp/refs/heads
 Claude Desktop users can also install the server as a [Desktop Extension][mcpb]. This is a single
 file which can be downloaded and installed without the need to edit any JSON config files.
 
-1. Go to the latest project [release][releases] on GitHub
+1. Go to the latest project [release][releases] on GitHub, if your fork publishes `.mcpb` assets
 2. Under Assets, download the `.mcpb` file
 3. Have your MCP server settings ready (SERVER, SITE_NAME, etc) and follow the [Claude
    Desktop instructions][claude]
