@@ -6,9 +6,10 @@ sidebar_position: 2
 
 This project now includes experimental support for Heroku.
 
-Use the Deploy to Heroku button to start the app creation flow to create a Tableau MCP instance:
+Use the repository template URL below if you want to wire this project into Heroku's app creation
+flow:
 
-[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://www.heroku.com/deploy?template=https://github.com/tableau/tableau-mcp)
+`https://www.heroku.com/deploy?template=https://github.com/larry-tableau/tableau-mcp`
 
 As part of the deployment process, Heroku will prompt for the
 [key configuration values](../configuration/mcp-config/env-vars.md#server):
@@ -42,7 +43,7 @@ The project includes a template file `config.http.json` which you can use as an 
 
 :::warning
 
-Deploying Tableau MCP to Heroku should be considered experimental at this point. Treat your Heroku
+Deploying this MCP server to Heroku should be considered experimental at this point. Treat your Heroku
 instance URL carefully and don't share it. This is meant only for test and development at this time.
 
 :::

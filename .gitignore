@@ -1,4 +1,5 @@
 *.local
+.DS_Store
 .env
 .env.*
 build/
@@ -15,9 +16,14 @@ tableau-mcp.dxt
 tableau-mcp.exe
 tableau-mcp.mcpb
 *.pem
-uat/keys/
 uat/.server.pid
 uat/.server.log
+uat/.DS_Store
+uat/keys/
+uat/scripts/.claude/
+uat/reports/.DS_Store
+uat/reports/.venv/
+uat/reports/**/*.local.*
 *.tgz
 *.tar.gz
 *.zip
@@ -31,8 +37,7 @@ skills-lock.json
 AGENTS.md
 CLAUDE.md
 
-# UAT scripts and tests (contain hardcoded demo identifiers)
-uat/
+# Local UAT runtime secrets and optional local-only tests
 tests/e2e/uat/
 
 # Demo artefacts with embedded secrets

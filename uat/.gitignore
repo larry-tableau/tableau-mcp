@@ -1,0 +1,12 @@
+.DS_Store
+.server.pid
+.server.log
+keys/
+scripts/.claude/
+
+# Generated reports and local render environment
+reports/
+
+# Local-only docs exports
+docs/*.png
+docs/image copy*.png

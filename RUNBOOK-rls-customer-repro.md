@@ -38,8 +38,8 @@ in the Tableau Cloud browser UI.
 
 ## Architecture Overview
 
-> **Interactive diagram:** open [`uat/reports/assets/rls-architecture.html`](uat/reports/assets/rls-architecture.html)
-> in a browser for the full visual with zoom controls, legend, and annotated callouts.
+> Public copies of this repository exclude generated report artefacts under `uat/reports/`.
+> The diagram below is the canonical reference for the flow.
 
 ```mermaid
 flowchart TB
@@ -71,13 +71,12 @@ you will map in the Data Policy):
 
 | User | Suggested email pattern | Tableau site role |
 |------|------------------------|-------------------|
-| Creator demo user | `yourname+creator@example.com` | **Creator** |
-| Viewer demo user | `yourname+viewer@example.com` | **Viewer** |
+| Creator demo user | `creator-user@example.com` | **Creator** |
+| Viewer demo user | `viewer-user@example.com` | **Viewer** |
 
 > **Datasource permission requirement:** VizQL Data Service queries require **API Access** on the
 > published datasource (View + Connect + API Access). Without API Access, queries return 0 rows
-> with no error. A Viewer site role user can return rows successfully if API Access is granted —
-> confirmed empirically in this demo (Viewer Demo user returned rows, see `uat/reports/rls-repro-2026-03-02.md`).
+> with no error. A Viewer site role user can return rows successfully if API Access is granted.
 
 Record both email addresses. You will use them in the Virtual Connection Data Policy (Step 1.3)
 and in `tests/.env` (Step 2.4).
@@ -124,7 +123,7 @@ Still inside the Virtual Connection editor (or re-open it via **Tableau Cloud �
 
 ```sql
 (
-  LOWER(USERNAME()) = 'yourname+creator@example.com'
+  LOWER(USERNAME()) = 'creator-user@example.com'
   AND (
     [Region] = 'West'
     OR [Region] = 'South'
@@ -132,7 +131,7 @@ Still inside the Virtual Connection editor (or re-open it via **Tableau Cloud �
 )
 OR
 (
-  LOWER(USERNAME()) = 'yourname+viewer@example.com'
+  LOWER(USERNAME()) = 'viewer-user@example.com'
   AND (
     [Region] = 'East'
     OR [Region] = 'Central'
@@ -181,7 +180,7 @@ capability that gates VizQL Data Service queries — View and Connect alone are 
 > with the VizQL Data Service."* — [Permissions and Capabilities, Tableau Cloud Help](https://help.tableau.com/current/online/en-us/permissions_capabilities.htm)
 
 <figure>
-  <img src="uat/docs/image.png" alt="Tableau Cloud Permissions dialog for the Sample - Superstore (with RLS) datasource. Shows custom permission rules for All Users (View + Connect granted, Download denied), Creator Demo (View + Connect granted), Explorer Demo (View + Connect + Download granted), and Viewer Demo (View + Connect granted). Larry Dioneda (admin) has Administer permissions." width="800">
+  <img src="uat/docs/image.png" alt="Tableau Cloud Permissions dialog for the Sample - Superstore (with RLS) datasource. Shows custom permission rules for All Users (View + Connect granted, Download denied), Creator Demo (View + Connect granted), Explorer Demo (View + Connect + Download granted), and Viewer Demo (View + Connect granted). Site administrator (admin) has Administer permissions." width="800">
   <figcaption><em>Tableau Cloud → datasource → Actions → Permissions. Creator Demo and Viewer Demo both have <strong>View</strong> and <strong>Connect</strong> granted. To enable VizQL Data Service queries you must also grant <strong>API Access</strong> — the capability column immediately to the right of Connect. Without API Access, queries return 0 rows with no error message.</em></figcaption>
 </figure>
 
@@ -281,7 +280,7 @@ UAT_ISSUER=<printed by script>
 
 ### Step 2.4 — Configure `tests/.env`
 
-Create `tests/.env` with the following content. Replace every `<placeholder>` with your values:
+Copy `tests/.env.example` to `tests/.env`, then replace every `<placeholder>` with your values:
 
 ```bash
 TRANSPORT=http
@@ -298,8 +297,8 @@ UAT_PRIVATE_KEY_PATH=<absolute path to uat/keys/uat_private_key.pem>
 OAUTH_ISSUER=http://127.0.0.1:3927
 OAUTH_JWE_PRIVATE_KEY_PATH=<absolute path to uat/keys/oauth_jwe_private_key.pem>
 
-CREATOR_EMAIL=yourname+creator@example.com
-VIEWER_EMAIL=yourname+viewer@example.com
+CREATOR_EMAIL=creator-user@example.com
+VIEWER_EMAIL=viewer-user@example.com
 DATASOURCE_LUID=<LUID from Step 1.4>
 
 DEFAULT_LOG_LEVEL=debug
@@ -473,10 +472,8 @@ A connected session with tools listed confirms the Creator identity is authentic
 
 Two rows. West and South only.
 
-<figure>
-  <img src="uat/reports/assets/creator-rls-result.png" alt="MCP Inspector v0.21.1 showing query-datasource result for the Creator user. The response contains two rows: Region West with SUM(Sales) 739813.6085 and SUM(Profit) 110798.817, and Region South with SUM(Sales) 391721.905 and SUM(Profit) 46749.430. The Authentication panel shows a custom Authorization header is active. Connection is via Streamable HTTP to http://127.0.0.1:3927/tableau-mcp." width="900">
-  <figcaption><em>Creator user result: <strong>West</strong> and <strong>South</strong> — exactly 2 rows. The Authorization custom header (visible in the left panel) carries the Creator JWE token. The MCP Inspector query was identical to the one run for the Viewer in the next step.</em></figcaption>
-</figure>
+The Creator result should contain exactly two rows: **South** and **West**. If you see any other
+region, the Data Policy or user mapping is wrong.
 
 ---
 
@@ -501,10 +498,8 @@ Repeat Steps 3.3 and 3.4, this time using the **viewer token** from Step 3.2 and
 
 Two rows. East and Central only.
 
-<figure>
-  <img src="uat/reports/assets/viewer-rls-result.png" alt="MCP Inspector v0.21.1 showing query-datasource result for the Viewer user. The response contains two rows: Region East with SUM(Sales) 691828.168 and SUM(Profit) 94883.260, and Region Central with SUM(Sales) 503170.673 and SUM(Profit) 39865.307. The left panel shows Connected status with tableau-mcp Version 1.15.3 and the OAuth 2.0 Flow panel visible." width="900">
-  <figcaption><em>Viewer user result: <strong>East</strong> and <strong>Central</strong> — exactly 2 rows. The session is authenticated as a different user (Viewer token). The query inputs were identical to the Creator query above. Tableau Cloud returned a completely different dataset based solely on the authenticated identity.</em></figcaption>
-</figure>
+The Viewer result should contain exactly two rows: **Central** and **East**. If the Viewer sees the
+same rows as the Creator, the sessions are not isolated or the policy is not being applied.
 
 ---
 
@@ -545,7 +540,7 @@ RLS Validation — <timestamp>
 Datasource: <your-datasource-luid>
 Query: Region + SUM(Sales) + SUM(Profit)
 
-── Creator (yourname+creator@example.com) ──
+── Creator (creator-user@example.com) ──
 Session: <session-id>
 Rows returned: 2
 [
@@ -553,7 +548,7 @@ Rows returned: 2
   { "Region": "West",  "SUM(Sales)": 739814, "SUM(Profit)": 110799 }
 ]
 
-── Viewer (yourname+viewer@example.com) ──
+── Viewer (viewer-user@example.com) ──
 Session: <session-id>
 Rows returned: 2
 [

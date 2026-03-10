@@ -33,8 +33,8 @@ When this demo is running correctly, here is the expected outcome:
 
 | User | Role | Regions returned | Why |
 |------|------|-----------------|-----|
-| `creator-user@example.com` | Creator Demo | **West, South** (2 rows) | VC Data Policy `rls_entitlement` maps this user → West, South |
-| `viewer-user@example.com` | Viewer Demo | **East, Central** (2 rows) | VC Data Policy `rls_entitlement` maps this user → East, Central |
+| `creator-user@example.com` | Creator Demo | **West, South** (2 rows) | VC Data Policy `rls_entitlement` maps this user -> West, South |
+| `viewer-user@example.com` | Viewer Demo | **East, Central** (2 rows) | VC Data Policy `rls_entitlement` maps this user -> East, Central |
 
 Both users call the same `query-datasource` tool with identical inputs. The data returned is
 different because Tableau Cloud evaluates the `rls_entitlement` VC Data Policy against the
@@ -146,7 +146,7 @@ In the browser:
 1. Click **Connect**
 2. A Tableau Cloud sign-in page opens — sign in as the **Creator** user:
    - Email: `creator-user@example.com`
-   - Password: `<user-password>`
+   - Password: `<creator-user-password>`
 3. After sign-in, the Inspector redirects back and shows **Connected**
 
 If the Inspector doesn't show a Connect button, refresh the page.
@@ -162,7 +162,7 @@ Navigate to the same Inspector URL shown in the terminal — it will look like:
 
 Repeat Step 3 in this second window, signing in as the **Viewer** user:
 - Email: `viewer-user@example.com`
-- Password: `<user-password>`
+- Password: `<viewer-user-password>`
 
 > A private window is essential. It keeps the two sessions separate so each user has their own
 > OAuth token and Tableau identity.

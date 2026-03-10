@@ -23,15 +23,14 @@
 Confirm all five before starting Phase 0.
 
 - [ ] **Node.js** — version 22 or higher (we'll install this in Phase 0 if needed)
-- [ ] **Repository access** — SSH key registered on `git.soma.salesforce.com`
 - [ ] **Tableau Cloud site admin** — Creator or Administrator role on the demo site
 - [ ] **Tableau Cloud Manager (TCM) cloud admin** — access to `https://cloudmanager.tableau.com`
   *(separate from your Tableau Cloud site — if you can't sign in there, see the note below)*
-- [ ] **Two demo email addresses** — e.g. `yourname+creator@gmail.com` and `yourname+viewer@gmail.com`
+- [ ] **Two demo email addresses** — e.g. `creator-user@example.com` and `viewer-user@example.com`
 
 > **Don't have TCM cloud admin access?**
 > TCM is Tableau's tenant-management layer — separate from Tableau Cloud itself. If you can't
-> sign in at `https://cloudmanager.tableau.com`, contact your Salesforce account admin or
+> sign in at `https://cloudmanager.tableau.com`, contact your Tableau administrator or
 > Tableau IT team and request Tableau Cloud Manager cloud administrator access. Your Tableau
 > Cloud site admin access does not grant this automatically.
 
@@ -68,29 +67,18 @@ npm --version    # must show 10.x.x or higher
 
 ### Step 0.2 — Clone the Repository
 
-This repository lives on Salesforce's internal GitHub. Your SSH key must be registered on
-`git.soma.salesforce.com` before this will work.
+Clone your public repository copy and change into the project directory:
 
 ```bash
-git clone git@git.soma.salesforce.com:ldioneda/tab-mcp.git --branch feature/uat-rls
-cd tab-mcp
+git clone https://github.com/larry-tableau/tableau-mcp.git
+cd tableau-mcp
 ```
-
-Confirm you are on the correct branch:
-```bash
-git branch
-```
-
-Expected output: `* feature/uat-rls`
-
-> **Note:** The `uat/` directory containing the RLS demo scripts is **gitignored** on the public
-> GitHub mirror. You must clone from `git.soma.salesforce.com` using the `feature/uat-rls` branch.
 
 ---
 
 ### Step 0.3 — Install Dependencies
 
-From inside the `tab-mcp` directory:
+From inside the `tableau-mcp-external` directory:
 
 ```bash
 npm install
@@ -111,11 +99,11 @@ In **Tableau Cloud → Users → Add Users**, create (or identify) two accounts:
 
 | Role | Suggested email pattern | Tableau site role |
 |------|------------------------|-------------------|
-| Creator demo user | `yourname+creator@gmail.com` | **Creator** |
-| Viewer demo user | `yourname+viewer@gmail.com` | **Viewer** |
+| Creator demo user | `creator-user@example.com` | **Creator** |
+| Viewer demo user | `viewer-user@example.com` | **Viewer** |
 
-> Using `+creator` and `+viewer` aliases on a Gmail address is the simplest approach — both
-> emails land in your inbox, and no separate accounts are needed.
+> Any two testable email addresses work. Use aliases or mailbox rules if you want both demo
+> users to land in one inbox.
 
 **Record both email addresses.** You will use them in the Data Policy (Step 1.3) and in your
 configuration file (Step 2.3).
@@ -155,7 +143,7 @@ Still inside the Virtual Connection editor (or re-open via **Tableau Cloud → V
 
 ```sql
 (
-  LOWER(USERNAME()) = 'yourname+creator@gmail.com'
+  LOWER(USERNAME()) = 'creator-user@example.com'
   AND (
     [Region] = 'West'
     OR [Region] = 'South'
@@ -163,7 +151,7 @@ Still inside the Virtual Connection editor (or re-open via **Tableau Cloud → V
 )
 OR
 (
-  LOWER(USERNAME()) = 'yourname+viewer@gmail.com'
+  LOWER(USERNAME()) = 'viewer-user@example.com'
   AND (
     [Region] = 'East'
     OR [Region] = 'Central'
@@ -275,7 +263,7 @@ Replace both values:
 >
 > Examples:
 > - URL: `https://10ax.online.tableau.com/#/site/mycompanydemo/home` → `SITE_NAME=mycompanydemo`
-> - URL: `https://prod-apsoutheast-a.online.tableau.com/#/site/tableauanzpresalesdemositesydney/home` → `SITE_NAME=tableauanzpresalesdemositesydney`
+> - URL: `https://prod-useast-a.online.tableau.com/#/site/field-demo/home` → `SITE_NAME=field-demo`
 > - Default site (no slug in URL): `SITE_NAME=` (leave blank — but the variable must be set)
 
 **The script prints two values.** Copy them for the next step:
@@ -292,11 +280,11 @@ UAT_ISSUER=<printed by script>
 > **What is a `.env` file?**
 > It is a plain text configuration file that stores settings and secrets for the server.
 > Create it with any text editor — TextEdit on Mac (use Format → Make Plain Text first),
-> Notepad on Windows, or VS Code. Save it as `tests/.env` inside the `tab-mcp` folder.
+> Notepad on Windows, or VS Code. Save it as `tests/.env` inside the `tableau-mcp-external` folder.
 > There is no `.txt` extension — the filename is literally `.env`.
 
-Copy the template below into `tests/.env`. Replace every `[PLACEHOLDER]` with your actual
-values using the collected information from earlier steps.
+Start from `tests/.env.example`, copy it to `tests/.env`, then replace every `[PLACEHOLDER]`
+or `<placeholder>` with your actual values using the collected information from earlier steps.
 
 ```bash
 TRANSPORT=http

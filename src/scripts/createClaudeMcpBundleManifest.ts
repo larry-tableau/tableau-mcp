@@ -534,20 +534,20 @@ const manifestEnvObject = Object.entries(envVars).reduce<Record<string, string>>
 
 const manifest = {
   manifest_version: '0.3',
-  name: 'Tableau',
+  name: 'Tableau MCP External',
   version: packageJson.version,
   description: packageJson.description,
   author: {
-    name: 'Tableau',
+    name: 'Independent Maintainers',
   },
   repository: {
     type: 'git',
-    url: 'https://github.com/tableau/tableau-mcp',
+    url: packageJson.homepage,
   },
   homepage: packageJson.homepage,
-  documentation: 'https://tableau.github.io/tableau-mcp/',
+  documentation: packageJson.homepage,
   license: packageJson.license,
-  support: 'https://github.com/tableau/tableau-mcp/issues',
+  support: packageJson.bugs,
   icon: 'icon.png',
   server: {
     type: 'node',

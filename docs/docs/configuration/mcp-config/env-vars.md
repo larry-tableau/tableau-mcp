@@ -157,8 +157,7 @@ A comma-separated list of tool or tool group names to include in the server. Onl
 be available.
 
 - Default: Empty string (_all_ are included)
-- For a list of available tools and groups, see
-  [toolName.ts](https://github.com/tableau/tableau-mcp/blob/main/src/tools/toolName.ts).
+- For a list of available tools and groups, see `src/tools/toolName.ts` in this repository.
 - Mixing tool names and group names is allowed.
 
 <hr />
@@ -223,8 +222,7 @@ This means that:
 :::
 
 - Default: Empty string (_no limits_)
-- For a list of available tools and groups, see
-  [toolName.ts](https://github.com/tableau/tableau-mcp/blob/main/src/tools/toolName.ts).
+- For a list of available tools and groups, see `src/tools/toolName.ts` in this repository.
 - Only applies to tools that have a `limit` parameter and return an array of items.
 - Tool names take precedence over tool group names. That is, `datasource:1000,list-datasources:20`
   means that the `list-datasources` tool can return up to 20 data sources but the `query-datasource`

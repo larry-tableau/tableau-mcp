@@ -1,7 +1,7 @@
 {
   "name": "Tableau MCP Server",
   "description": "A Model Context Protocol (MCP) Server for interacting with the Tableau platform",
-  "repository": "https://github.com/tableau/tableau-mcp",
+  "repository": "https://github.com/larry-tableau/tableau-mcp",
   "success_url": "/tableau-mcp",
   "keywords": ["node", "mcp", "tableau"],
   "buildpacks": [

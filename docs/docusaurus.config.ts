@@ -3,9 +3,9 @@ import type { Config } from '@docusaurus/types';
 import { themes as prismThemes } from 'prism-react-renderer';
 
 const config: Config = {
-  title: 'Tableau MCP',
+  title: 'Tableau MCP External',
   tagline:
-    'Tableau MCP is a suite of developer primitives, including tools, resources and prompts, that will make it easier for developers to build AI applications that integrate with Tableau.',
+    'An independent MCP server for Tableau environments, with tools, docs, and UAT workflow guidance.',
   favicon: 'img/favicon.ico',
   trailingSlash: false,
 
@@ -15,15 +15,15 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: 'https://tableau.github.io/',
+  url: 'https://larry-tableau.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/tableau-mcp/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'tableau', // Usually your GitHub org/user name.
-  projectName: 'tableau-mcp', // Usually your repo name.
+  organizationName: 'larry-tableau',
+  projectName: 'tableau-mcp',
   deploymentBranch: 'main',
 
   onBrokenLinks: 'throw',
@@ -60,9 +60,9 @@ const config: Config = {
   themeConfig: {
     // Replace with your project's social card
     navbar: {
-      title: 'Tableau MCP',
+      title: 'Tableau MCP External',
       logo: {
-        alt: 'Tableau MCP Logo',
+        alt: 'Project Logo',
         src: 'img/tableau.svg',
         srcDark: 'img/tableau_white.svg',
       },
@@ -74,7 +74,7 @@ const config: Config = {
           label: 'Documentation',
         },
         {
-          href: 'https://github.com/tableau/tableau-mcp',
+          href: 'https://github.com/larry-tableau/tableau-mcp',
           label: 'GitHub',
           position: 'right',
         },
@@ -82,7 +82,7 @@ const config: Config = {
     },
     footer: {
       style: 'dark',
-      copyright: `Copyright ©${new Date().getFullYear()} Salesforce, Inc. Built with Docusaurus.`,
+      copyright: `Copyright ©${new Date().getFullYear()} Independent maintainers. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,

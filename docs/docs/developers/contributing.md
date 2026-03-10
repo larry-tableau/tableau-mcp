@@ -9,6 +9,4 @@ We are following the
 where contributors will make their own fork of this repo, implement their changes, and then submit a
 pull request here.
 
-Refer to the
-[Contribution Checklist](https://github.com/tableau/tableau-mcp/blob/main/CONTRIBUTING.md#contribution-checklist)
-for more details on the steps.
+Refer to the local `CONTRIBUTING.md` for the contribution checklist and submission expectations.

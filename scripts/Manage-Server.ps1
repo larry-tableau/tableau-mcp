@@ -1,9 +1,9 @@
 <#
   .SYNOPSIS
-  Manages the Tableau MCP Server
+  Manages the Tableau MCP Server deployment in this repository
 
   .DESCRIPTION
-  The Manage-Server.ps1 script helps to manage your deployment of the Tableau MCP Server.
+  The Manage-Server.ps1 script helps to manage your deployment of the MCP server in this repository.
 
   It can help you:
 
@@ -24,7 +24,7 @@
   PS> .\Manage-Server.ps1
 
   .LINK
-  https://tableau.github.io/tableau-mcp/docs/getting-started#nodejs-single-executable-applications
+  https://larry-tableau.github.io/tableau-mcp/docs/getting-started#nodejs-single-executable-applications
 #>
 
 function Show-Menu {
@@ -70,13 +70,13 @@ function Show-Menu {
 function Use-NodeJS {
   <#
     .SYNOPSIS
-        Downloads the Tableau MCP SEA zip file, expands it, creates a .env file, starts the MCP server, and checks the server status
+        Downloads the MCP server SEA zip file, expands it, creates a .env file, starts the MCP server, and checks the server status
 
     .PARAMETER assetUrl
-        The GitHub release asset URL to download the Tableau MCP SEA zip file
+        The GitHub release asset URL to download the MCP server SEA zip file
 
     .EXAMPLE
-        Use-NodeJS -assetUrl "https://github.com/tableau/tableau-mcp/releases/download/v1.13.4/tableau-mcp.zip"
+        Use-NodeJS -assetUrl "https://github.com/larry-tableau/tableau-mcp/releases/download/v1.13.4/tableau-mcp.zip"
     #>
   param(
     [Parameter(Mandatory = $true, HelpMessage = "The GitHub release asset URL to download the Tableau MCP SEA zip file")]
@@ -128,7 +128,7 @@ function New-EnvFile {
 function Get-EnvContent {
   <#
     .SYNOPSIS
-        Gets the content of the .env file with the user's Tableau MCP settings
+        Gets the content of the .env file with the user's MCP server settings
 
     .EXAMPLE
         Get-EnvContent
@@ -299,12 +299,12 @@ function Get-TableauMCP {
         The GitHub release asset URL to download the Tableau MCP SEA zip file
 
     .EXAMPLE
-        Get-TableauMCP -assetUrl "https://github.com/tableau/tableau-mcp/releases/download/v1.13.4/tableau-mcp.zip"
+        Get-TableauMCP -assetUrl "https://github.com/larry-tableau/tableau-mcp/releases/download/v1.13.4/tableau-mcp.zip"
     #>
   param(
     [string]$assetUrl
   )
-  Write-Host "`nStage: Download Tableau MCP from GitHub" -ForegroundColor Magenta
+  Write-Host "`nStage: Download MCP server from GitHub" -ForegroundColor Magenta
   $tableauMCPZip = Join-Path -Path $PWD -ChildPath "tableau-mcp.zip"
 
   if (Test-Path $tableauMCPZip) {
@@ -314,7 +314,7 @@ function Get-TableauMCP {
     }
   }
 
-  Write-Host "Downloading Tableau MCP from $assetUrl..." -ForegroundColor Magenta
+  Write-Host "Downloading MCP server from $assetUrl..." -ForegroundColor Magenta
   Write-Host "Downloading to $tableauMCPZip" -ForegroundColor Magenta
   Invoke-WebRequest -Uri $assetUrl -OutFile $tableauMCPZip
 }
@@ -327,20 +327,20 @@ function Expand-TableauMCP {
     .EXAMPLE
         Expand-TableauMCP
     #>
-  Write-Host "`nStage: Expand Tableau MCP ZIP file" -ForegroundColor Magenta
+  Write-Host "`nStage: Expand MCP server ZIP file" -ForegroundColor Magenta
 
   $tableauMCPZip = Join-Path -Path $PWD -ChildPath "tableau-mcp.zip"
 
   Write-Host "Expanding archive to $PWD..." -ForegroundColor Magenta
   Expand-Archive -Path $tableauMCPZip -DestinationPath $PWD -Force
 
-  Write-Host "Tableau MCP extracted successfully!" -ForegroundColor Green
+  Write-Host "MCP server extracted successfully!" -ForegroundColor Green
 }
 
 function Get-GitHubReleases {
   <#
     .SYNOPSIS
-        Gets the latest Tableau MCP releases from GitHub
+        Gets the latest MCP server releases from GitHub
 
     .EXAMPLE
         Get-GitHubReleases
@@ -355,9 +355,9 @@ function Get-GitHubReleases {
     $headers["Authorization"] = "Bearer $env:GITHUB_TOKEN"
   }
 
-  Write-Progress -Activity "Fetching Tableau MCP releases" -Status "Fetching releases" -PercentComplete 0
+  Write-Progress -Activity "Fetching MCP server releases" -Status "Fetching releases" -PercentComplete 0
   $response = Invoke-RestMethod `
-    -Uri "https://api.github.com/repos/tableau/tableau-mcp/releases" `
+    -Uri "https://api.github.com/repos/larry-tableau/tableau-mcp/releases" `
     -Headers $headers `
     -Method Get
   Write-Progress -Activity "Fetching Tableau MCP releases" -Status "Fetching releases" -Completed

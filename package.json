@@ -1,14 +1,14 @@
 {
-  "name": "@tableau/mcp-server",
-  "description": "An MCP server for Tableau, providing a suite of tools that will make it easier for developers to build AI applications that integrate with Tableau.",
+  "name": "tableau-mcp-external",
+  "description": "An independent MCP server for Tableau environments, with tools for AI applications and UAT-based demos.",
   "version": "1.15.3",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tableau/tableau-mcp.git"
+    "url": "git+https://github.com/larry-tableau/tableau-mcp.git"
   },
-  "homepage": "https://github.com/tableau/tableau-mcp",
-  "bugs": "https://github.com/tableau/tableau-mcp/issues",
-  "author": "Tableau",
+  "homepage": "https://github.com/larry-tableau/tableau-mcp",
+  "bugs": "https://github.com/larry-tableau/tableau-mcp/issues",
+  "author": "Independent Maintainers",
   "type": "commonjs",
   "license": "Apache-2.0",
   "keywords": [

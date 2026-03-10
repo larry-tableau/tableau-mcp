@@ -89,7 +89,8 @@ UAT_ISSUER=<printed by script>
 
 ## Step 3 — Configure Environment
 
-`tests/.env` was pre-populated by the setup with the key paths already filled in.
+Start from `tests/.env.example`, copy it to `tests/.env`, then add the UAT values from the
+registration script output.
 After Step 2, add the `UAT_TENANT_ID` and `UAT_ISSUER` values printed by the script.
 
 The complete `tests/.env` should look like:
@@ -112,7 +113,8 @@ OAUTH_JWE_PRIVATE_KEY_PATH=./uat/keys/oauth_jwe_private_key.pem
 DEFAULT_LOG_LEVEL=debug
 ```
 
-> **Key paths** are already filled in `tests/.env` from the key generation in Step 1.
+> **Key paths** are pre-populated in `tests/.env.example`. If you regenerate keys, update the
+> copied `tests/.env` paths to match the new output.
 > If you regenerate keys, update these paths to match the new output.
 
 ---

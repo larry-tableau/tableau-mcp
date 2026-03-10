@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tableau MCP — UAT Auth Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              brand: { 500: '#0176D3', 600: '#0154A4', 700: '#014486' },
+              surface: { 800: '#1a1f2e', 900: '#0f1218', 950: '#080b0f' },
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body { background-color: #0f1218; }
+      .badge { @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium; }
+      pre { font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace; }
+    </style>
+  </head>
+  <body class="min-h-screen text-slate-200 antialiased">
+    <!-- Header -->
+    <header class="border-b border-slate-800 bg-surface-900/80 backdrop-blur sticky top-0 z-10">
+      <div class="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="h-8 w-8 rounded-lg bg-brand-500 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-sm font-semibold text-white">Tableau MCP External</h1>
+            <p class="text-xs text-slate-400">UAT Auth Dashboard — Mode B</p>
+          </div>
+        </div>
+        <a
+          href="http://127.0.0.1:3927"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 rounded-lg bg-brand-500 hover:bg-brand-600 px-4 py-2 text-sm font-medium text-white transition-colors"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+          Open MCP Inspector
+        </a>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-6xl px-6 py-10 space-y-10">
+
+      <!-- Important callout -->
+      <div class="rounded-xl border border-amber-500/30 bg-amber-500/10 px-5 py-4 flex gap-3">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-400 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        <div>
+          <p class="text-sm font-semibold text-amber-300">Tableau Cloud OAuth requires local dev URL</p>
+          <p class="mt-1 text-sm text-amber-200/80">
+            The OAuth issuer <strong class="font-mono">http://127.0.0.1:3927</strong> is the only supported local origin for Tableau Cloud until Q2 2026.
+            Do not change this URL — it must be registered exactly as shown in your Tableau Cloud UAT configuration.
+          </p>
+        </div>
+      </div>
+
+      <!-- Setup Checklist -->
+      <section>
+        <h2 class="text-lg font-semibold text-white mb-4">Setup Checklist</h2>
+        <div class="rounded-xl border border-slate-800 bg-surface-800 divide-y divide-slate-800">
+          <div id="checklist-items" class="divide-y divide-slate-800"></div>
+        </div>
+      </section>
+
+      <!-- Auth Flow Diagram -->
+      <section>
+        <h2 class="text-lg font-semibold text-white mb-4">Auth Flow — Mode B</h2>
+        <div class="rounded-xl border border-slate-800 bg-surface-800 p-6 overflow-x-auto">
+          <div class="flex items-start gap-2 min-w-max">
+            <div class="flex flex-col items-center gap-1">
+              <div class="rounded-lg border border-slate-600 bg-slate-700/50 px-4 py-2.5 text-sm font-medium text-slate-200">User Browser</div>
+            </div>
+            <div class="flex flex-col items-center pt-3">
+              <div class="flex flex-col items-center">
+                <div class="h-px w-12 bg-brand-500"></div>
+                <p class="text-xs text-slate-400 mt-1 text-center">1 OAuth login</p>
+              </div>
+            </div>
+            <div class="flex flex-col items-center gap-1">
+              <div class="rounded-lg border border-brand-500/50 bg-brand-500/10 px-4 py-2.5 text-sm font-medium text-brand-300">MCP Server<br/><span class="text-xs font-normal text-brand-400/70">127.0.0.1:3927</span></div>
+            </div>
+            <div class="flex flex-col items-center pt-3">
+              <div class="flex flex-col items-center">
+                <div class="h-px w-12 bg-slate-500"></div>
+                <p class="text-xs text-slate-400 mt-1 text-center">2 Redirect</p>
+              </div>
+            </div>
+            <div class="flex flex-col items-center gap-1">
+              <div class="rounded-lg border border-slate-600 bg-slate-700/50 px-4 py-2.5 text-sm font-medium text-slate-200">Tableau OAuth<br/><span class="text-xs font-normal text-slate-400">Cloud</span></div>
+            </div>
+            <div class="flex flex-col items-center pt-3">
+              <div class="flex flex-col items-center">
+                <div class="h-px w-16 bg-green-500"></div>
+                <p class="text-xs text-slate-400 mt-1 text-center">3 code + email</p>
+              </div>
+            </div>
+            <div class="flex flex-col items-center gap-1">
+              <div class="rounded-lg border border-brand-500/50 bg-brand-500/10 px-4 py-2.5 text-sm font-medium text-brand-300">MCP Server</div>
+            </div>
+            <div class="flex flex-col items-center pt-3">
+              <div class="flex flex-col items-center">
+                <div class="h-px w-16 bg-slate-500"></div>
+                <p class="text-xs text-slate-400 mt-1 text-center">4 RS256 JWT</p>
+              </div>
+            </div>
+            <div class="flex flex-col items-center gap-1">
+              <div class="rounded-lg border border-slate-600 bg-slate-700/50 px-4 py-2.5 text-sm font-medium text-slate-200">Tableau UAT<br/><span class="text-xs font-normal text-slate-400">endpoint</span></div>
+            </div>
+            <div class="flex flex-col items-center pt-3">
+              <div class="flex flex-col items-center">
+                <div class="h-px w-16 bg-green-500"></div>
+                <p class="text-xs text-slate-400 mt-1 text-center">5 scoped session</p>
+              </div>
+            </div>
+            <div class="flex flex-col items-center gap-1">
+              <div class="rounded-lg border border-green-500/40 bg-green-500/10 px-4 py-2.5 text-sm font-medium text-green-300">RLS Applied<br/><span class="text-xs font-normal text-green-400/70">per user</span></div>
+            </div>
+          </div>
+          <p class="mt-4 text-xs text-slate-400">
+            Step 4: The MCP server injects <code class="font-mono text-brand-300">{OAUTH_USERNAME}</code> from the OAuth login as the <code class="font-mono text-brand-300">email</code> claim in the UAT JWT.
+            Tableau Cloud creates a session scoped to that user — RLS is enforced automatically.
+          </p>
+        </div>
+      </section>
+
+      <!-- Tool → Scopes Table -->
+      <section>
+        <h2 class="text-lg font-semibold text-white mb-4">Tool → JWT Scopes</h2>
+        <div class="rounded-xl border border-slate-800 bg-surface-800 overflow-hidden">
+          <table class="w-full text-sm">
+            <thead class="bg-slate-800/60">
+              <tr>
+                <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">Tool</th>
+                <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">JWT Scopes (<code class="normal-case font-mono">scp</code>)</th>
+              </tr>
+            </thead>
+            <tbody id="scopes-table" class="divide-y divide-slate-800"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Key Info -->
+      <section>
+        <h2 class="text-lg font-semibold text-white mb-4">RSA Key Pairs</h2>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="rounded-xl border border-slate-800 bg-surface-800 p-5">
+            <h3 class="text-sm font-semibold text-white mb-1">UAT Signing Key</h3>
+            <p class="text-xs text-slate-400 mb-3">Signs UAT JWTs (RS256). Public key registered in Tableau Cloud.</p>
+            <div class="space-y-1 text-xs font-mono">
+              <div><span class="text-slate-500">Private:</span> <span class="text-slate-300">uat/keys/uat_private_key.pem</span></div>
+              <div><span class="text-slate-500">Public:</span> <span class="text-slate-300">uat/keys/uat_public_key.pem</span></div>
+              <div><span class="text-slate-500">Env var:</span> <span class="text-brand-300">UAT_PRIVATE_KEY_PATH</span></div>
+            </div>
+          </div>
+          <div class="rounded-xl border border-slate-800 bg-surface-800 p-5">
+            <h3 class="text-sm font-semibold text-white mb-1">OAuth JWE Decryption Key</h3>
+            <p class="text-xs text-slate-400 mb-3">Decrypts OAuth access tokens (RSA-OAEP-256 / A256GCM). Public key derived automatically.</p>
+            <div class="space-y-1 text-xs font-mono">
+              <div><span class="text-slate-500">Private:</span> <span class="text-slate-300">uat/keys/oauth_jwe_private_key.pem</span></div>
+              <div><span class="text-slate-500">Env var:</span> <span class="text-brand-300">OAUTH_JWE_PRIVATE_KEY_PATH</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RLS Explainer -->
+      <section>
+        <h2 class="text-lg font-semibold text-white mb-4">How RLS Works</h2>
+        <div class="rounded-xl border border-slate-800 bg-surface-800 p-6 text-sm text-slate-300 space-y-3">
+          <p>
+            When a user authenticates via OAuth, Tableau Cloud returns their email as <code class="font-mono text-brand-300">OAUTH_USERNAME</code>.
+            The MCP server substitutes this into <code class="font-mono text-brand-300">UAT_USERNAME_CLAIM={OAUTH_USERNAME}</code> and signs a UAT JWT
+            with <code class="font-mono text-brand-300">email: &lt;user@example.com&gt;</code>.
+          </p>
+          <p>
+            Tableau Cloud validates the JWT against the registered public key, creates a scoped REST API session for that exact user,
+            and enforces all Row-Level Security rules as if the user had signed in directly.
+          </p>
+          <p>
+            Each tool call requests only the minimum scopes needed (see table above). Tableau Cloud rejects requests
+            that exceed the declared scopes in the JWT.
+          </p>
+        </div>
+      </section>
+
+    </main>
+
+    <script>
+      const checklist = [
+        { label: 'Generate RSA key pairs', cmd: 'npx tsx uat/scripts/generateKeys.ts', done: false },
+        { label: 'Register UAT config via TCM REST API', cmd: 'TCM_PAT_SECRET=<secret> npx tsx uat/scripts/registerUat.ts', done: false },
+        { label: 'Copy uat/.env.example and fill in key paths', cmd: 'cp uat/.env.example tests/.env', done: false },
+        { label: 'Build and start the MCP server', cmd: 'npm run uat:up', done: false },
+        { label: 'Run scope tests (no network required)', cmd: 'npm run test:e2e -- uatScopes', done: false },
+        { label: 'Open MCP Inspector and connect to http://127.0.0.1:3927', cmd: 'npm run uat:inspect', done: false },
+        { label: 'Authenticate via browser OAuth and verify email in session', cmd: 'manual step — see runbook', done: false },
+        { label: 'Call list-workbooks and verify RLS-filtered results', cmd: 'via MCP Inspector or Claude Desktop', done: false },
+      ];
+
+      const scopeData = [
+        { tool: 'list-workbooks', scopes: ['tableau:content:read'] },
+        { tool: 'get-workbook', scopes: ['tableau:content:read'] },
+        { tool: 'list-views', scopes: ['tableau:content:read'] },
+        { tool: 'list-datasources', scopes: ['tableau:content:read'] },
+        { tool: 'search-content', scopes: ['tableau:content:read'] },
+        { tool: 'get-view-image', scopes: ['tableau:views:download'] },
+        { tool: 'get-view-data', scopes: ['tableau:views:download'] },
+        { tool: 'query-datasource', scopes: ['tableau:viz_data_service:read'] },
+        { tool: 'get-datasource-metadata', scopes: ['tableau:content:read', 'tableau:viz_data_service:read'] },
+        { tool: 'list-pulse-metrics-from-metric-ids', scopes: ['tableau:insight_metrics:read'] },
+        { tool: 'list-pulse-metrics-from-metric-definition-id', scopes: ['tableau:insight_definitions_metrics:read'] },
+        { tool: 'list-all-pulse-metric-definitions', scopes: ['tableau:insight_definitions_metrics:read'] },
+        { tool: 'list-pulse-metric-definitions-from-definition-ids', scopes: ['tableau:insight_definitions_metrics:read'] },
+        { tool: 'list-pulse-metric-subscriptions', scopes: ['tableau:metric_subscriptions:read'] },
+        { tool: 'generate-pulse-metric-value-insight-bundle', scopes: ['tableau:insights:read'] },
+        { tool: 'generate-pulse-insight-brief', scopes: ['tableau:insight_brief:create'] },
+      ];
+
+      function renderChecklist() {
+        const container = document.getElementById('checklist-items');
+        checklist.forEach((item, idx) => {
+          const el = document.createElement('div');
+          el.className = 'flex items-start gap-4 px-5 py-4 cursor-pointer hover:bg-slate-700/20 transition-colors';
+          el.innerHTML = `
+            <button onclick="toggleCheck(${idx})" class="mt-0.5 h-5 w-5 shrink-0 rounded-full border-2 ${item.done ? 'border-green-500 bg-green-500' : 'border-slate-600'} flex items-center justify-center transition-colors" id="check-${idx}">
+              ${item.done ? '<svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
+            </button>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium ${item.done ? 'text-slate-400 line-through' : 'text-slate-200'}" id="label-${idx}">${idx + 1}. ${item.label}</p>
+              <pre class="mt-1 text-xs text-brand-300 bg-slate-900/50 rounded px-2.5 py-1.5 overflow-x-auto">${item.cmd}</pre>
+            </div>
+          `;
+          container.appendChild(el);
+        });
+      }
+
+      function toggleCheck(idx) {
+        checklist[idx].done = !checklist[idx].done;
+        const btn = document.getElementById('check-' + idx);
+        const label = document.getElementById('label-' + idx);
+        if (checklist[idx].done) {
+          btn.className = btn.className.replace('border-slate-600', 'border-green-500 bg-green-500');
+          btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>';
+          label.classList.add('text-slate-400', 'line-through');
+          label.classList.remove('text-slate-200');
+        } else {
+          btn.className = btn.className.replace('border-green-500 bg-green-500', 'border-slate-600');
+          btn.innerHTML = '';
+          label.classList.remove('text-slate-400', 'line-through');
+          label.classList.add('text-slate-200');
+        }
+      }
+
+      function renderScopesTable() {
+        const tbody = document.getElementById('scopes-table');
+        const scopeColors = {
+          'tableau:content:read': 'bg-blue-500/15 text-blue-300 border border-blue-500/25',
+          'tableau:views:download': 'bg-purple-500/15 text-purple-300 border border-purple-500/25',
+          'tableau:viz_data_service:read': 'bg-cyan-500/15 text-cyan-300 border border-cyan-500/25',
+          'tableau:insight_metrics:read': 'bg-amber-500/15 text-amber-300 border border-amber-500/25',
+          'tableau:insight_definitions_metrics:read': 'bg-orange-500/15 text-orange-300 border border-orange-500/25',
+          'tableau:metric_subscriptions:read': 'bg-rose-500/15 text-rose-300 border border-rose-500/25',
+          'tableau:insights:read': 'bg-green-500/15 text-green-300 border border-green-500/25',
+          'tableau:insight_brief:create': 'bg-teal-500/15 text-teal-300 border border-teal-500/25',
+        };
+        scopeData.forEach(({ tool, scopes }) => {
+          const tr = document.createElement('tr');
+          tr.className = 'hover:bg-slate-700/20 transition-colors';
+          tr.innerHTML = `
+            <td class="px-4 py-3 font-mono text-sm text-slate-300">${tool}</td>
+            <td class="px-4 py-3">
+              <div class="flex flex-wrap gap-1.5">
+                ${scopes.map(s => `<span class="badge font-mono ${scopeColors[s] || 'bg-slate-700 text-slate-300'}">${s}</span>`).join('')}
+              </div>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      renderChecklist();
+      renderScopesTable();
+    </script>
+  </body>
+</html>

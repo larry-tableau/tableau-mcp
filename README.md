@@ -1,19 +1,13 @@
-# Tableau MCP
-
-[![Tableau Supported](https://img.shields.io/badge/Support%20Level-Tableau%20Supported-53bd92.svg)](https://www.tableau.com/support-levels-it-and-developer-tools)
-
-[![Build and Test](https://github.com/tableau/tableau-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/tableau/tableau-mcp/actions/workflows/ci.yml)
-
-[![npm](https://img.shields.io/npm/v/@tableau/mcp-server)](https://www.npmjs.com/package/@tableau/mcp-server)
+# Tableau MCP External
 
 ## Overview
 
-Tableau MCP is a suite of developer primitives, including tools, resources and prompts, that will
-make it easier for developers to build AI applications that integrate with Tableau.
+This repository is an independent MCP server for Tableau environments. It includes the core server,
+tooling, and a local UAT-based demo workflow for validating row-level security and authenticated
+query behaviour in external environments.
 
-## Official Documentation
-
-https://tableau.github.io/tableau-mcp/
+This copy has been prepared for public sharing. Secrets, private tenant identifiers, and
+environment-specific setup values must be provided by the operator.
 
 ## Quick Start
 
@@ -29,7 +23,7 @@ Standard config works in most MCP clients:
   "mcpServers": {
     "tableau": {
       "command": "npx",
-      "args": ["-y", "@tableau/mcp-server@latest"],
+      "args": ["-y", "tableau-mcp-external@latest"],
       "env": {
         "SERVER": "https://my-tableau-server.com",
         "SITE_NAME": "my_site",
@@ -41,19 +35,27 @@ Standard config works in most MCP clients:
 }
 ```
 
-## Deploy to Heroku
+## Public UAT Workflow
 
-[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://www.heroku.com/deploy?template=https://github.com/tableau/tableau-mcp)
+The repository includes a UAT-based local workflow under `uat/` and the top-level runbooks:
 
-## Example Prompts to Client
+- `RUNBOOK-tableau-mcp-uat.md`
+- `RUNBOOK-rls-demo.md`
+- `RUNBOOK-rls-customer-repro.md`
+- `RUNBOOK-rls-se-quickstart.md`
 
-#### Prompt #1: Querying Data
+Use `tests/.env.example` as the starting point for local setup. Replace every placeholder with
+values from your own Tableau environment.
+
+## Example Prompts To A Client
+
+### Prompt 1: Querying Data
 
 ```
 For the Superstore Datasource, what are the top 5 states with the most sales in 2025?
 ```
 
-#### Response
+### Response
 
 ```
 Based on the Superstore Datasource, here are the top 5 states with the most sales in 2025:
@@ -65,13 +67,13 @@ Based on the Superstore Datasource, here are the top 5 states with the most sale
 California leads by a significant margin with over $146,000 in sales, followed by New York with nearly $94,000. These two states alone account for a substantial portion of the total sales across the top 5 states.
 ```
 
-#### Prompt #2: Content Exploration
+### Prompt 2: Content Exploration
 
 ```
 Find me the most viewed workbook within the last year.
 ```
 
-#### Response
+### Response
 
 ```
 The most viewed workbook within the last year is:
@@ -84,12 +86,12 @@ Global Connections
 - Workbook ID: 111fb672-9401-4913-a167-17b3d89a3e4f
 ```
 
-#### Prompt #3: Getting a View
+### Prompt 3: Getting A View
 
 ```
 Show me an image of the "Economy" view in the "Finances" project.
 ```
 
-#### Response
+### Response
 
 ![Economy View Image](docs/static/img/economy-view.png)
