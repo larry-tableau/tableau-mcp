@@ -78,7 +78,7 @@ cd tableau-mcp
 
 ### Step 0.3 — Install Dependencies
 
-From inside the `tableau-mcp-external` directory:
+From inside the `tableau-mcp` directory:
 
 ```bash
 npm install
@@ -264,7 +264,7 @@ Replace both values:
 > Examples:
 > - URL: `https://10ax.online.tableau.com/#/site/mycompanydemo/home` → `SITE_NAME=mycompanydemo`
 > - URL: `https://prod-useast-a.online.tableau.com/#/site/field-demo/home` → `SITE_NAME=field-demo`
-> - Default site (no slug in URL): `SITE_NAME=` (leave blank — but the variable must be set)
+> - This quickstart assumes a named site with a non-empty `SITE_NAME` slug.
 
 **The script prints two values.** Copy them for the next step:
 

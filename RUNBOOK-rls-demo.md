@@ -126,16 +126,20 @@ To stop the server: press `Ctrl+C` in this terminal.
 Open a **second Terminal window** and run:
 
 ```sh
-npm run uat:inspect
+nohup npx @modelcontextprotocol/inspector --config config.http.json --server tableau > /tmp/inspect.log 2>&1 &
+sleep 3 && cat /tmp/inspect.log
 ```
 
-Your browser opens automatically at `http://localhost:6274`.
+The log output will contain a URL in the form:
 
-> **You will see `401 Unauthorized` errors in the terminal. This is completely normal.**
-> The Inspector is detecting that sign-in is required and starting the OAuth handshake. You can
-> ignore the terminal entirely — everything you need is in the browser.
+```
+http://localhost:6274/?MCP_PROXY_AUTH_TOKEN=<token>
+```
 
-To stop the Inspector: press `Ctrl+C` in this terminal.
+Open this URL in your browser.
+
+> Do not use `npm run uat:inspect` here — that command starts its own server instance on port
+> 3927, which conflicts with the server already running from Step 1.
 
 ---
 
@@ -143,29 +147,25 @@ To stop the Inspector: press `Ctrl+C` in this terminal.
 
 In the browser:
 
-1. Click **Connect**
-2. A Tableau Cloud sign-in page opens — sign in as the **Creator** user:
-   - Email: `creator-user@example.com`
-   - Password: `<creator-user-password>`
-3. After sign-in, the Inspector redirects back and shows **Connected**
-
-If the Inspector doesn't show a Connect button, refresh the page.
+1. Click **Authentication**
+2. Under **Custom Headers**, fill in:
+   - **Header Name**: `Authorization`
+   - **Header Value**: `Bearer <creator token>`
+3. Click **Connect**
 
 ---
 
 ## Step 4 — Open a Second Session as User 2 (Viewer)
 
-Open an **incognito / private browser window** (or a separate browser profile).
+Open an **incognito / private browser window** (or a separate browser profile), then navigate to
+the same Inspector URL from Step 2.
 
-Navigate to the same Inspector URL shown in the terminal — it will look like:
-`http://localhost:6274/?MCP_PROXY_AUTH_TOKEN=...`
-
-Repeat Step 3 in this second window, signing in as the **Viewer** user:
-- Email: `viewer-user@example.com`
-- Password: `<viewer-user-password>`
+Repeat Step 3 in this second window, this time using:
+- **Header Name**: `Authorization`
+- **Header Value**: `Bearer <viewer token>`
 
 > A private window is essential. It keeps the two sessions separate so each user has their own
-> OAuth token and Tableau identity.
+> authentication state and Tableau identity.
 
 ---
 

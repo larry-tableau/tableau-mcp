@@ -59,7 +59,7 @@ If you cannot reach `cloudmanager.tableau.com` or don't see the PAT option, you 
 ### Run the registration script
 
 ```bash
-TCM_PAT_SECRET=<your-pat-secret> npx tsx uat/scripts/registerUat.ts
+SITE_NAME=<your-site-content-url> TCM_PAT_SECRET=<your-pat-secret> npx tsx uat/scripts/registerUat.ts
 ```
 
 The script:
@@ -72,7 +72,7 @@ Optional env vars for the script:
 
 | Var | Default | Description |
 |---|---|---|
-| `SITE_NAME` | `<your-site-content-url>` | Content URL of the target site (leave blank for Default site) |
+| `SITE_NAME` | `<your-site-content-url>` | Content URL of the target site. This runbook assumes a named site with a non-empty slug. |
 | `UAT_ISSUER_URI` | `https://mcp.tableau.com/uat` | Any unique URI — becomes `UAT_ISSUER` |
 | `UAT_NAME` | `tableau-mcp-uat` | Display name for the UAT config in TCM |
 

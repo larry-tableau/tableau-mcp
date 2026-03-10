@@ -255,19 +255,18 @@ this access, try navigating to `https://cloudmanager.tableau.com`.
 #### Run the Registration Script
 
 ```bash
-TCM_PAT_SECRET=<your-pat-secret> npx tsx uat/scripts/registerUat.ts
+SITE_NAME=<your-site-content-url> TCM_PAT_SECRET=<your-pat-secret> npx tsx uat/scripts/registerUat.ts
 ```
 
 Environment variables:
 
 | Variable | Required? | Description |
 |----------|-----------|-------------|
-| `SITE_NAME` | **Required** — no default | Your Tableau Cloud site `contentUrl` slug — NOT the display name. Must be set explicitly, even if blank. Set `SITE_NAME=` (blank) for the Default site. |
+| `SITE_NAME` | **Required** — no default | Your Tableau Cloud site `contentUrl` slug — NOT the display name. This runbook assumes a named site with a non-empty slug. |
 | `UAT_ISSUER_URI` | Optional | Default: `https://mcp.tableau.com/uat`. Any unique URI; becomes `UAT_ISSUER`. |
 
 > **`SITE_NAME` is the `contentUrl` slug** — the short string in your Tableau Cloud URL, e.g.
-> `mycompanydemo`. The Default site has `contentUrl = ''` (empty string). Do not use the
-> display name shown in the site dropdown.
+> `mycompanydemo`. Do not use the display name shown in the site dropdown.
 
 The script prints two values. Copy them:
 
