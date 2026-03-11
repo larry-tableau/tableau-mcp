@@ -46,3 +46,5 @@ datasources.md
 
 #Other files
 _email/
+.gitignore
+docs/docs/extras/stakeholder-guide-tableau-mcp.md
