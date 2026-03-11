@@ -22,7 +22,7 @@ Clone and build the repository locally:
 ```bash
 git clone https://github.com/larry-tableau/tableau-mcp.git
 cd tableau-mcp
-npm install
+npm ci
 npm run build
 ```
 
@@ -53,6 +53,7 @@ those delivery channels.
 
 The repository includes a UAT-based local workflow under `uat/` and the top-level runbooks:
 
+- `RUNBOOK-recreate-functional-state.md` — canonical end-to-end rebuild and proof guide
 - `RUNBOOK-tableau-mcp-uat.md`
 - `RUNBOOK-rls-demo.md`
 - `RUNBOOK-rls-customer-repro.md`

@@ -46,7 +46,7 @@ const out = [
   '',
   'Next steps:',
   '  1. Register the public key above in Tableau Cloud under UAT configuration.',
-  '  2. Copy uat/.env.example -> tests/.env (or your env file).',
+  '  2. Copy tests/.env.example -> tests/.env (authoritative template).',
   `  3. Set UAT_PRIVATE_KEY_PATH=${uatPrivatePath}`,
   `  4. Set OAUTH_JWE_PRIVATE_KEY_PATH=${oauthJwePrivatePath}`,
   '',

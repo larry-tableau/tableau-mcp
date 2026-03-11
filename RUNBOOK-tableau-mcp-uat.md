@@ -1,5 +1,7 @@
 # RUNBOOK: Tableau MCP — UAT Auth (Mode B)
 
+> **Status:** Supporting reference only. The canonical rebuild and execution guide is [RUNBOOK-recreate-functional-state.md](RUNBOOK-recreate-functional-state.md). This document remains useful for focused UAT/OAuth detail, but it is not the authoritative end-to-end path.
+
 **Mode B: HTTP + OAuth + UAT + `{OAUTH_USERNAME}`**
 
 The MCP server runs as an HTTP OAuth 2.1 provider. When a user connects, they authenticate via

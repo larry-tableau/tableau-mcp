@@ -1,5 +1,7 @@
 # Row-Level Security Demo: Same Question, Different Answer
 
+> **Status:** Supporting reference only. The canonical rebuild and execution guide is [RUNBOOK-recreate-functional-state.md](RUNBOOK-recreate-functional-state.md). Use this document for narrative framing and manual demo support, not as the primary rebuild path.
+
 > **What this proves:** Two people ask Tableau the exact same question. They get different data back.
 > Not because the app filtered it. Not because we hid a column. Because Tableau Cloud enforced
 > your security rules at the data layer — before the answer ever left the server.

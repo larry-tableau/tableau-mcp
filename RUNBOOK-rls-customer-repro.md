@@ -1,5 +1,7 @@
 # Tableau MCP — Row-Level Security: End-to-End Reproduction Guide
 
+> **Status:** Supporting reference only. The canonical rebuild and execution guide is [RUNBOOK-recreate-functional-state.md](RUNBOOK-recreate-functional-state.md). If this document conflicts with the canonical runbook, follow the canonical runbook.
+
 > **What this proves:** Two people send identical questions to an AI assistant connected to
 > Tableau. They get different answers. Not because the application filtered the data. Because
 > Tableau Cloud enforced your security policy at the data layer — before any result left the

@@ -1,5 +1,7 @@
 # Tableau MCP + RLS — SE Quickstart
 
+> **Status:** Supporting reference only. The canonical rebuild and execution guide is [RUNBOOK-recreate-functional-state.md](RUNBOOK-recreate-functional-state.md). This quickstart is retained for fast human onboarding, but the canonical runbook is the single source of truth.
+
 > *Same question. Different answers. Enforced by Tableau.*
 >
 > Two people ask an AI assistant the same question. They get different answers — not because
@@ -81,7 +83,7 @@ cd tableau-mcp
 From inside the `tableau-mcp` directory:
 
 ```bash
-npm install
+npm ci
 ```
 
 This downloads all required packages. It takes about 60 seconds on first run. You will see a
@@ -210,7 +212,7 @@ alone are not sufficient — VizQL Data Service queries require API Access expli
 
 ## Phase 2 — Configure Secrets *(~10 min)*
 
-All terminal commands in Phase 2 are run from the `tab-mcp` directory.
+All terminal commands in Phase 2 are run from the `tableau-mcp` directory.
 
 ### Step 2.1 — Generate RSA Key Pairs
 

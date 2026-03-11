@@ -207,7 +207,7 @@
       const checklist = [
         { label: 'Generate RSA key pairs', cmd: 'npx tsx uat/scripts/generateKeys.ts', done: false },
         { label: 'Register UAT config via TCM REST API', cmd: 'TCM_PAT_SECRET=<secret> npx tsx uat/scripts/registerUat.ts', done: false },
-        { label: 'Copy uat/.env.example and fill in key paths', cmd: 'cp uat/.env.example tests/.env', done: false },
+        { label: 'Copy tests/.env.example and fill in key paths', cmd: 'cp tests/.env.example tests/.env', done: false },
         { label: 'Build and start the MCP server', cmd: 'npm run uat:up', done: false },
         { label: 'Run scope tests (no network required)', cmd: 'npm run test:e2e -- uatScopes', done: false },
         { label: 'Open MCP Inspector and connect to http://127.0.0.1:3927', cmd: 'npm run uat:inspect', done: false },
